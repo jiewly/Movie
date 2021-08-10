@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace Movie.Controllers
 {
+
     public class MasterMovieController : Controller
     {
         private readonly MovieContext _movieContext;
