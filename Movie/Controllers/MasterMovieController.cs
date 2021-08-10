@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Movie.EntityFramework;
+using Movie.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +15,7 @@ namespace Movie.Controllers
 
         public MasterMovieController(MovieContext movieContext)
         {
-          _movieContext= movieContext;//set dependency
+            _movieContext = movieContext;//set dependency
         }
         // GET: MasterMovieController
         public ActionResult Index()
@@ -30,66 +31,80 @@ namespace Movie.Controllers
         }
 
         // GET: MasterMovieController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+        public IActionResult Create() => View();
 
         // POST: MasterMovieController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(MasterMovie item)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _movieContext.Add(item);
+                await _movieContext.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been added!";
+
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(item);
+
         }
 
         // GET: MasterMovieController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
-        }
+            MasterMovie item = await _movieContext.MasterMovies.FindAsync(id);
+            if (item == null)
+            {
+                return NotFound();
+            }
 
+            return View(item);
+
+        }
         // POST: MasterMovieController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(MasterMovie item)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                _movieContext.Update(item);
+                await _movieContext.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been updated!";
+
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(item);
         }
 
         // GET: MasterMovieController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         // POST: MasterMovieController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
-            try
+            MasterMovie item = await _movieContext.MasterMovies.FindAsync(id);
+            if (item == null)
             {
-                return RedirectToAction(nameof(Index));
+                TempData["Error"] = "The item does not exist!";
             }
-            catch
+            else
             {
-                return View();
+               _movieContext.MasterMovies.Remove(item);
+                await _movieContext.SaveChangesAsync();
+
+                TempData["Success"] = "The item has been deleted!";
             }
+
+            return RedirectToAction("Index");
         }
     }
 }
