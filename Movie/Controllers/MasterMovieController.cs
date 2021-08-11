@@ -14,12 +14,13 @@ namespace Movie.Controllers
     public class MasterMovieController : Controller
     {
         private readonly MovieContext _movieContext;
-        private readonly MasterMovieService _masterMovieService;
+        private readonly IMasterMovieService _masterMovieService;
 
-        public MasterMovieController(MovieContext movieContext )
+        public MasterMovieController(MovieContext movieContext,IMasterMovieService masterMovieService )
         {
-            _movieContext = movieContext;//set dependency
-            _masterMovieService = new MasterMovieService(_movieContext);
+            _movieContext = movieContext; //set dependency injection
+            /*_masterMovieService = new MasterMovieService(_movieContext);*///รูปเเบบdependency
+            _masterMovieService = masterMovieService;
          }
         // GET: MasterMovieController
         public ActionResult Index()

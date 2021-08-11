@@ -7,7 +7,18 @@ using System.Threading.Tasks;
 
 namespace Movie.Services
 {
-    public class MasterMovieService
+    public interface IMasterMovieService //interface เป็นคลาสเเม่ มีเเค่ medthod
+    {
+        IEnumerable<MasterMovie> GetAll();
+        MasterMovie GetById(int id);
+        MasterMovie AddMovies(MasterMovie item);
+        MasterMovie PostMovies(int id);
+        MasterMovie UpdateMovies(MasterMovie item);
+        MasterMovie DeleteMovies(int id);
+
+    }
+
+    public class MasterMovieService : IMasterMovieService //ลูกต้องเชื่อมกับclassเเม่
     {
         private readonly MovieContext _movieContext;
         public MasterMovieService(MovieContext movieContext)
