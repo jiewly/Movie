@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Movie.EntityFramework;
 using Movie.Models;
+using Movie.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,24 +19,44 @@ namespace Movie.ApiControllers
         ////    return "Jiew";
         //}
         private readonly MovieContext _movieContext;
+        private readonly MasterMovieService _masterMovieService;
 
         public MasterMoviesController(MovieContext movieContext)
         {
-            _movieContext = movieContext; 
+            _movieContext = movieContext;
+            _masterMovieService = new MasterMovieService(movieContext);
         }
         [Route("getall")]
 
         public IEnumerable<MasterMovie> GetAll()
         {
-            var movies = _movieContext.MasterMovies.ToList();
+            var movies = _masterMovieService.GetAll();
             return movies;
         }
         [Route("getbyid/{id?}")]
 
         public MasterMovie GetById(int id)
         {
-            var item =  _movieContext.MasterMovies.Find(id);//การส่งข้อมูลผ่านคิวรี่เพื่อที่จะได้เรียกค่ากลับคืนมา 
+            var item =  _masterMovieService.GetById(id);//การส่งข้อมูลผ่านคิวรี่เพื่อที่จะได้เรียกค่ากลับคืนมา 
             return item;
+        }
+        [HttpPost]
+        public MasterMovie Add(MasterMovie item)
+        {
+            var mastermovie = _masterMovieService.AddMovies(item);
+            return mastermovie;
+        }
+        [HttpPut]
+        public MasterMovie UpdateMovies(MasterMovie item)
+        {
+            var mastermovie = _masterMovieService.UpdateMovies(item);
+            return mastermovie;
+        }
+       [HttpDelete]
+        public MasterMovie DeleteMovies(int id)
+        {
+            var mastermovie = _masterMovieService.DeleteMovies(id);
+            return mastermovie;
         }
     }
 }
