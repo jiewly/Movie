@@ -39,8 +39,6 @@
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
-            
-
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
@@ -199,7 +197,7 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-         with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
 
 
                         <li class="nav-item">
@@ -207,7 +205,7 @@
                                 <i class="nav-icon fas fa-th"></i>
                                 <p>
                                     Home
-                                 
+
                                 </p>
                             </a>
                         </li>
@@ -247,7 +245,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                       
+
                             @RenderBody()
                         </div><!-- /.col -->
                         <div class="col-sm-6">
@@ -263,7 +261,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid">
-                   
+
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
@@ -318,5 +316,6 @@
     <script src="~/AdminLTE-3.1.0/dist/js/demo.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     <script src="~/AdminLTE-3.1.0/dist/js/pages/dashboard.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
